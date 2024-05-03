@@ -2,26 +2,144 @@
 // 問題ごとの完了日をローカルストレージに保存する
 // 問題ごとのタイム秒をローカルストレージに保存する
 
-const problem_config = {
-    "problem_id" : "prob_add_50",
-    "problem_name" : "たし算&nbsp;50～59",   
-    "operator" : "addition",
-    "item_1" : {
-        "min" : 0,
-//        "max" : 9,
-        "max" : 0,
+const problem_configs = {
+    "prob_dev_test" : {
+        "problem_id" : "prob_dev_test",
+        "problem_name" : "開発用テスト問題",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 1,
+        },
+        "item_2" : {
+        "min" : 11,
+        "max" : 12,
+        },
     },
-    "item_2" : {
-       "min" : 11,
-       "max" : 12,
-//       "min" : 50,
-//       "max" : 59,
+    "prob_add_10" : {
+        "problem_id" : "prob_add_10",
+        "problem_name" : "たし算&nbsp;10～19",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 10,
+        "max" : 19,
+        },
+    },
+    "prob_add_20" : {
+        "problem_id" : "prob_add_20",
+        "problem_name" : "たし算&nbsp;20～29",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 20,
+        "max" : 29,
+        },
+    },
+    "prob_add_30" : {
+        "problem_id" : "prob_add_30",
+        "problem_name" : "たし算&nbsp;30～39",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 30,
+        "max" : 39,
+        },
+    },
+    "prob_add_40" : {
+        "problem_id" : "prob_add_40",
+        "problem_name" : "たし算&nbsp;40～49",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 40,
+        "max" : 49,
+        },
+    },
+    "prob_add_50" : {
+        "problem_id" : "prob_add_50",
+        "problem_name" : "たし算&nbsp;50～59",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 50,
+        "max" : 59,
+        },
+    },
+    "prob_add_60" : {
+        "problem_id" : "prob_add_60",
+        "problem_name" : "たし算&nbsp;60～69",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 60,
+        "max" : 69,
+        },
+    },
+    "prob_add_70" : {
+        "problem_id" : "prob_add_70",
+        "problem_name" : "たし算&nbsp;70～79",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 70,
+        "max" : 79,
+        },
+    },
+    "prob_add_80" : {
+        "problem_id" : "prob_add_80",
+        "problem_name" : "たし算&nbsp;80～89",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 80,
+        "max" : 89,
+        },
+    },
+    "prob_add_90" : {
+        "problem_id" : "prob_add_90",
+        "problem_name" : "たし算&nbsp;90～99",   
+        "operator" : "addition",
+        "item_1" : {
+            "min" : 0,
+            "max" : 9,
+        },
+        "item_2" : {
+        "min" : 90,
+        "max" : 99,
+        },
     },
 }
 
 $(document).ready(function(){
     $("tr.problem_row").click(function(){
-        createProblems()
+        const problem_id = $(this).attr("id")
+        console.log(problem_id)
+        createProblems(problem_id)
         setNextProblem()
         all_problems_start_unix_time = Date.now()
         $("#progress_bar").css("width", "0%")
@@ -34,7 +152,8 @@ let correct_count = 0
 let all_problems_start_unix_time
 let each_problem_start_unix_time
 let current_problem_config
-function createProblems() {
+function createProblems(problem_id) {
+    const problem_config = problem_configs[problem_id]
     problems.splice(0)
 
     const item_1_numbers = shuffleArray(createNumberArray(problem_config.item_1.min, problem_config.item_1.max))
