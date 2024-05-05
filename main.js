@@ -2,267 +2,266 @@
 // 終了のタイミングでログもローカルストレージに保存する
 // htmlのインデントをそろえる
 // doneとlogの名前をそろえる
-// ログがないときはログタブはdisabled
 
 const problem_configs = {
-    "prob_add_00" : {
-        "problem_id" : "prob_add_00",
-        "problem_name" : "たし算&nbsp;0～9",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_00": {
+        "problem_id": "prob_add_00",
+        "problem_name": "たし算&nbsp;0～9",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 0,
-        "max" : 9,
-        },
-    },
-    "prob_add_10" : {
-        "problem_id" : "prob_add_10",
-        "problem_name" : "たし算&nbsp;10～19",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 10,
-        "max" : 19,
+        "item_2": {
+            "min": 0,
+            "max": 9,
         },
     },
-    "prob_add_20" : {
-        "problem_id" : "prob_add_20",
-        "problem_name" : "たし算&nbsp;20～29",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_10": {
+        "problem_id": "prob_add_10",
+        "problem_name": "たし算&nbsp;10～19",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 20,
-        "max" : 29,
-        },
-    },
-    "prob_add_30" : {
-        "problem_id" : "prob_add_30",
-        "problem_name" : "たし算&nbsp;30～39",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 30,
-        "max" : 39,
+        "item_2": {
+            "min": 10,
+            "max": 19,
         },
     },
-    "prob_add_40" : {
-        "problem_id" : "prob_add_40",
-        "problem_name" : "たし算&nbsp;40～49",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_20": {
+        "problem_id": "prob_add_20",
+        "problem_name": "たし算&nbsp;20～29",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 40,
-        "max" : 49,
-        },
-    },
-    "prob_add_50" : {
-        "problem_id" : "prob_add_50",
-        "problem_name" : "たし算&nbsp;50～59",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 50,
-        "max" : 59,
+        "item_2": {
+            "min": 20,
+            "max": 29,
         },
     },
-    "prob_add_60" : {
-        "problem_id" : "prob_add_60",
-        "problem_name" : "たし算&nbsp;60～69",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_30": {
+        "problem_id": "prob_add_30",
+        "problem_name": "たし算&nbsp;30～39",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 60,
-        "max" : 69,
-        },
-    },
-    "prob_add_70" : {
-        "problem_id" : "prob_add_70",
-        "problem_name" : "たし算&nbsp;70～79",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 70,
-        "max" : 79,
+        "item_2": {
+            "min": 30,
+            "max": 39,
         },
     },
-    "prob_add_80" : {
-        "problem_id" : "prob_add_80",
-        "problem_name" : "たし算&nbsp;80～89",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_40": {
+        "problem_id": "prob_add_40",
+        "problem_name": "たし算&nbsp;40～49",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 80,
-        "max" : 89,
-        },
-    },
-    "prob_add_90" : {
-        "problem_id" : "prob_add_90",
-        "problem_name" : "たし算&nbsp;90～99",   
-        "operator" : "addition",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 90,
-        "max" : 99,
+        "item_2": {
+            "min": 40,
+            "max": 49,
         },
     },
-    "prob_sub_10" : {
-        "problem_id" : "prob_sub_10",
-        "problem_name" : "ひき算&nbsp;10～19",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_50": {
+        "problem_id": "prob_add_50",
+        "problem_name": "たし算&nbsp;50～59",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 10,
-        "max" : 19,
-        },
-    },
-    "prob_sub_20" : {
-        "problem_id" : "prob_sub_20",
-        "problem_name" : "ひき算&nbsp;20～29",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 20,
-        "max" : 29,
+        "item_2": {
+            "min": 50,
+            "max": 59,
         },
     },
-    "prob_sub_30" : {
-        "problem_id" : "prob_sub_30",
-        "problem_name" : "ひき算&nbsp;30～39",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_60": {
+        "problem_id": "prob_add_60",
+        "problem_name": "たし算&nbsp;60～69",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 30,
-        "max" : 39,
-        },
-    },
-    "prob_sub_40" : {
-        "problem_id" : "prob_sub_40",
-        "problem_name" : "ひき算&nbsp;40～49",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 40,
-        "max" : 49,
+        "item_2": {
+            "min": 60,
+            "max": 69,
         },
     },
-    "prob_sub_50" : {
-        "problem_id" : "prob_sub_50",
-        "problem_name" : "ひき算&nbsp;50～59",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_70": {
+        "problem_id": "prob_add_70",
+        "problem_name": "たし算&nbsp;70～79",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 50,
-        "max" : 59,
-        },
-    },
-    "prob_sub_60" : {
-        "problem_id" : "prob_sub_60",
-        "problem_name" : "ひき算&nbsp;60～69",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 60,
-        "max" : 69,
+        "item_2": {
+            "min": 70,
+            "max": 79,
         },
     },
-    "prob_sub_70" : {
-        "problem_id" : "prob_sub_70",
-        "problem_name" : "ひき算&nbsp;70～79",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_80": {
+        "problem_id": "prob_add_80",
+        "problem_name": "たし算&nbsp;80～89",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 70,
-        "max" : 79,
-        },
-    },
-    "prob_sub_80" : {
-        "problem_id" : "prob_sub_80",
-        "problem_name" : "ひき算&nbsp;80～89",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
-        },
-        "item_2" : {
-        "min" : 80,
-        "max" : 89,
+        "item_2": {
+            "min": 80,
+            "max": 89,
         },
     },
-    "prob_sub_90" : {
-        "problem_id" : "prob_sub_90",
-        "problem_name" : "ひき算&nbsp;90～99",
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 9,
+    "prob_add_90": {
+        "problem_id": "prob_add_90",
+        "problem_name": "たし算&nbsp;90～99",
+        "operator": "addition",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 90,
-        "max" : 99,
+        "item_2": {
+            "min": 90,
+            "max": 99,
         },
     },
-    "prob_dev_test" : {
-        "problem_id" : "prob_dev_test",
-        "problem_name" : "開発用テスト問題",   
-        "operator" : "subtraction",
-        "item_1" : {
-            "min" : 0,
-            "max" : 1,
+    "prob_sub_10": {
+        "problem_id": "prob_sub_10",
+        "problem_name": "ひき算&nbsp;10～19",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
         },
-        "item_2" : {
-        "min" : 11,
-        "max" : 12,
+        "item_2": {
+            "min": 10,
+            "max": 19,
+        },
+    },
+    "prob_sub_20": {
+        "problem_id": "prob_sub_20",
+        "problem_name": "ひき算&nbsp;20～29",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 20,
+            "max": 29,
+        },
+    },
+    "prob_sub_30": {
+        "problem_id": "prob_sub_30",
+        "problem_name": "ひき算&nbsp;30～39",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 30,
+            "max": 39,
+        },
+    },
+    "prob_sub_40": {
+        "problem_id": "prob_sub_40",
+        "problem_name": "ひき算&nbsp;40～49",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 40,
+            "max": 49,
+        },
+    },
+    "prob_sub_50": {
+        "problem_id": "prob_sub_50",
+        "problem_name": "ひき算&nbsp;50～59",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 50,
+            "max": 59,
+        },
+    },
+    "prob_sub_60": {
+        "problem_id": "prob_sub_60",
+        "problem_name": "ひき算&nbsp;60～69",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 60,
+            "max": 69,
+        },
+    },
+    "prob_sub_70": {
+        "problem_id": "prob_sub_70",
+        "problem_name": "ひき算&nbsp;70～79",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 70,
+            "max": 79,
+        },
+    },
+    "prob_sub_80": {
+        "problem_id": "prob_sub_80",
+        "problem_name": "ひき算&nbsp;80～89",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 80,
+            "max": 89,
+        },
+    },
+    "prob_sub_90": {
+        "problem_id": "prob_sub_90",
+        "problem_name": "ひき算&nbsp;90～99",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 9,
+        },
+        "item_2": {
+            "min": 90,
+            "max": 99,
+        },
+    },
+    "prob_dev_test": {
+        "problem_id": "prob_dev_test",
+        "problem_name": "開発用テスト問題",
+        "operator": "subtraction",
+        "item_1": {
+            "min": 0,
+            "max": 1,
+        },
+        "item_2": {
+            "min": 11,
+            "max": 12,
         },
     },
 }
@@ -276,12 +275,14 @@ let correct_count = 0
 let all_problems_start_unix_time
 let each_problem_start_unix_time
 let current_problem_config
+let correct_sound_audio
 
-$(document).ready(function(){
+$(document).ready(function () {
     user_done_date = getMapFromLocalStorage("user_done_date")
     user_done_count = getMapFromLocalStorage("user_done_count")
     user_best_record = getMapFromLocalStorage("user_best_record")
     rebuildProblemRows()
+    correct_sound_audio = $("#correct_sound").get(0)
 });
 
 function createProblems(problem_id) {
@@ -293,28 +294,28 @@ function createProblems(problem_id) {
 
     item_1_numbers.forEach((num_1) => {
         item_2_numbers.forEach((num_2) => {
-            if(problem_config.operator == "addition"){
+            if (problem_config.operator == "addition") {
                 const answer = num_1 + num_2
                 problems.push({
-                    "formula" : `${num_1} + ${num_2} = `,
-                    "answer" : answer
+                    "formula": `${num_1} + ${num_2} = `,
+                    "answer": answer
                 })
-            } else if(problem_config.operator == "subtraction") {
+            } else if (problem_config.operator == "subtraction") {
                 const answer = num_2 - num_1
                 problems.push({
-                    "formula" : `${num_2} - ${num_1} = `,
-                    "answer" : answer
+                    "formula": `${num_2} - ${num_1} = `,
+                    "answer": answer
                 })
             }
         });
     });
     current_problem_config = problem_config
-} 
+}
 
-function setNextProblem(){
-    if(problems.length == 0){
+function setNextProblem() {
+    if (problems.length == 0) {
         closeProblems()
-        return ;
+        return;
     }
     const problem = problems.pop()
     $("#current_problem_name").html(`${current_problem_config.problem_name}`)
@@ -323,10 +324,11 @@ function setNextProblem(){
     $("#answer")
         .val("")
         .off("keyup")
-        .keyup(function(){
-            if($(this).val() == problem.answer){
+        .keyup(function () {
+            if ($(this).val() == problem.answer) {
                 correct_count++
                 const duration_seconds = Math.floor((Date.now() - each_problem_start_unix_time) / 100) / 10
+                correct_sound_audio.play()
                 $("#done_list_group").prepend(`<li class="list-group-item"><i class="bi bi-check text-success"></i>&nbsp;${problem.formula}${problem.answer}&nbsp;(${duration_seconds.toFixed(1)}秒)</li>`)
                 const progress = Math.floor(correct_count / (correct_count + problems.length) * 100)
                 $("#progress_bar").css("width", `${progress}%`)
@@ -338,7 +340,7 @@ function setNextProblem(){
         .focus()
 }
 
-function closeProblems(){
+function closeProblems() {
     $("#answer").val("").off("keyup").prop("disabled", true)
     $("#progress_bar").css("width", `100%`)
     const total_duration_seconds = (Math.floor((Date.now() - all_problems_start_unix_time) / 100) / 10).toFixed(1)
@@ -348,7 +350,7 @@ function closeProblems(){
     saveMapToLocalStorage("user_done_date", user_done_date)
 
     let problem_done_count = user_done_count.get(current_problem_config.problem_id)
-    if(problem_done_count > 0){
+    if (problem_done_count > 0) {
         problem_done_count++
     } else {
         problem_done_count = 1
@@ -358,9 +360,9 @@ function closeProblems(){
 
     const best_record = user_best_record.get(current_problem_config.problem_id)
     let best_record_icon = ''
-    if(not(best_record) || (best_record && parseFloat(total_duration_seconds) < parseFloat(best_record))){
+    if (not(best_record) || (best_record && parseFloat(total_duration_seconds) < parseFloat(best_record))) {
         user_best_record.set(current_problem_config.problem_id, total_duration_seconds)
-        if(best_record){
+        if (best_record) {
             best_record_icon = '<i class="bi bi-award"></i>'
         }
     }
@@ -374,40 +376,40 @@ function closeProblems(){
     rebuildProblemRows()
 }
 
-function rebuildProblemRows(){
+function rebuildProblemRows() {
     $("tr.problem_row").remove()
     for (const project_id in problem_configs) {
         const config = problem_configs[project_id]
         let problem_done_date = user_done_date.get(config.problem_id)
-        if(not(problem_done_date)){
+        if (not(problem_done_date)) {
             problem_done_date = "-"
         }
 
         let problem_best_record = user_best_record.get(config.problem_id)
-        if(not(problem_best_record)){
+        if (not(problem_best_record)) {
             problem_best_record = "-"
-        }else{
+        } else {
             problem_best_record = `${problem_best_record}秒`
         }
 
         let problem_done_count = user_done_count.get(config.problem_id)
         let problem_done_icon = '<i class="bi bi-play"></i>'
-        if(problem_done_count > 9){
+        if (problem_done_count > 9) {
             problem_done_icon = '<i class="bi bi-patch-check-fill text-success"></i>'
-        }else if(problem_done_count > 4){
+        } else if (problem_done_count > 4) {
             problem_done_icon = '<i class="bi bi-patch-check text-success"></i>'
-        }else if(problem_done_count > 2){
+        } else if (problem_done_count > 2) {
             problem_done_icon = '<i class="bi bi-patch-check"></i>'
-        }else if(problem_done_count > 1){
+        } else if (problem_done_count > 1) {
             problem_done_icon = '<i class="bi bi-check-all"></i>'
-        }else if(problem_done_count > 0){
+        } else if (problem_done_count > 0) {
             problem_done_icon = '<i class="bi bi-check"></i>'
         }
 
         $("#problems table tbody")
-            .append(`<tr id="${config.problem_id}" class="problem_row"><td>${problem_done_icon}&nbsp;${config.problem_name}</td><td>${problem_done_date}</td><td>${problem_best_record}</td></tr>`)        
+            .append(`<tr id="${config.problem_id}" class="problem_row"><td>${problem_done_icon}&nbsp;${config.problem_name}</td><td>${problem_done_date}</td><td>${problem_best_record}</td></tr>`)
     }
-    $("tr.problem_row").click(function(){
+    $("tr.problem_row").click(function () {
         const problem_id = $(this).attr("id")
         createProblems(problem_id)
         setNextProblem()
@@ -447,7 +449,7 @@ function saveMapToLocalStorage(key, map) {
 // ローカルストレージからMapオブジェクトを取得する関数
 function getMapFromLocalStorage(key) {
     const jsonStr = localStorage.getItem(key);
-    if(not(jsonStr)){
+    if (not(jsonStr)) {
         return new Map();
     }
     return jsonToMap(jsonStr);
@@ -473,7 +475,7 @@ function createNumberArray(min, max) {
 }
 
 function not(v) {
-    if(v){
+    if (v) {
         return false
     }
     return true
