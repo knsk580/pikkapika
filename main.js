@@ -1,6 +1,10 @@
 // 音声入力
+// 回答が間違っていることを可視化する
+// 次の問題に移ったことをわかりやすくする
 // 終了のタイミングでログもローカルストレージに保存する
-// htmlのインデントをそろえる
+
+// リファクタリング
+// TypeScript化
 // doneとlogの名前をそろえる
 
 const problem_configs = {
@@ -253,7 +257,7 @@ const problem_configs = {
     },
     "prob_dev_test": {
         "problem_id": "prob_dev_test",
-        "problem_name": "開発用テスト問題",
+        "problem_name": "開発用テスト",
         "operator": "subtraction",
         "item_1": {
             "min": 0,
@@ -383,6 +387,8 @@ function rebuildProblemRows() {
         let problem_done_date = user_done_date.get(config.problem_id)
         if (not(problem_done_date)) {
             problem_done_date = "-"
+        }else{
+            problem_done_date = formatDateStringForLog(problem_done_date)
         }
 
         let problem_best_record = user_best_record.get(config.problem_id)
@@ -428,6 +434,14 @@ function getTodayDateString() {
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
     return year + '-' + month + '-' + day;
+}
+
+function formatDateStringForLog(inputDate) {
+    const date = new Date(inputDate);
+    // 月は0から始まるため、1を加える
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return month + '/' + day;
 }
 
 // MapオブジェクトをJSONに変換する関数
