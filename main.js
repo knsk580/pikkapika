@@ -1,5 +1,3 @@
-// 音声入力
-// 回答が間違っていることを可視化する
 // 次の問題に移ったことをわかりやすくする
 // 終了のタイミングでログもローカルストレージに保存する
 
@@ -280,6 +278,7 @@ let all_problems_start_unix_time
 let each_problem_start_unix_time
 let current_problem_config
 let correct_sound_audio
+let incorrect_sound_audio
 
 $(document).ready(function () {
     user_done_date = getMapFromLocalStorage("user_done_date")
@@ -287,6 +286,7 @@ $(document).ready(function () {
     user_best_record = getMapFromLocalStorage("user_best_record")
     rebuildProblemRows()
     correct_sound_audio = $("#correct_sound").get(0)
+    incorrect_sound_audio = $("#incorrect_sound").get(0)
 });
 
 function createProblems(problem_id) {
@@ -338,6 +338,16 @@ function setNextProblem() {
                 $("#progress_bar").css("width", `${progress}%`)
 
                 setNextProblem()
+            }else{
+                const errorBgColorClass = "bg-danger-subtle"
+                if($(this).val().length >= String(problem.answer).length){
+                    if(not($(this).hasClass(errorBgColorClass))){
+                        $(this).addClass(errorBgColorClass)
+                        incorrect_sound_audio.play()    
+                    }
+                }else{
+                    $(this).removeClass(errorBgColorClass)
+                }
             }
         })
         .prop("disabled", false)
