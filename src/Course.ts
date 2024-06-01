@@ -43,6 +43,8 @@ export class Course {
                     this.addProblem(`${num1} + ${num2} = `, num1 + num2)
                 } else if (this.config.operator === 'subtraction') {
                     this.addProblem(`${num2} - ${num1} = `, num2 - num1)
+                } else if (this.config.operator === 'multiplication') {
+                    this.addProblem(`${num2} x ${num1} = `, num2 * num1)
                 }
             })
         })

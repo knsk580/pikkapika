@@ -3,40 +3,64 @@ import { TimeKeeper } from './TimeKeeper'
 import { Course } from './Course'
 import { StorageHelper } from './StorageHelper'
 import { CourseConfigLoader } from './CourseConfigLoader'
+import { View } from './View'
 
 export class Controller {
     private courseTimeKeeper: TimeKeeper
     private problemTimeKeeper: TimeKeeper
     private courseConfigList: CourseConfig[] = []
-    private correctSoundAudio: HTMLAudioElement
-    private incorrectSoundAudio: HTMLAudioElement
     private storageHelper: StorageHelper
+    private currentCourse: Course | null = null
+    private view: View
 
     constructor() {
         this.courseTimeKeeper = new TimeKeeper()
         this.problemTimeKeeper = new TimeKeeper()
-        this.correctSoundAudio = document.getElementById('correct_sound') as HTMLAudioElement
-        this.incorrectSoundAudio = document.getElementById('incorrect_sound') as HTMLAudioElement
         this.storageHelper = new StorageHelper('pika_uch_')
         this.courseConfigList = CourseConfigLoader.createCourseConfigList()
+        this.view = new View()
     }
 
     initialize() {
         document.addEventListener('DOMContentLoaded', () => {
             this.createCourseTable()
+            this.view.answerInput.oninput = this.answerInputCheckEventHandler.bind(this)
         })
+    }
+
+    private answerInputCheckEventHandler(): void {
+        if (this.currentCourse === null) {
+            return
+        }
+        const inputElem: HTMLInputElement = this.view.answerInput
+        if (inputElem.value === inputElem.dataset.answer) {
+            this.problemTimeKeeper.end()
+            this.view.playCorrectSound()
+            this.view.addEndProblemLog(inputElem.dataset.formula!, inputElem.dataset.answer, this.problemTimeKeeper.getDurationSec())
+            this.view.updateProgressBar(Math.floor((this.currentCourse.doneProblemCount / this.currentCourse.allProblemCount) * 100))
+            this.startNextProblem(this.currentCourse)
+        } else {
+            const errorBgColorClass = 'bg-danger-subtle'
+            if (inputElem.value.length >= inputElem.dataset.answer!.length) {
+                if (inputElem.classList.contains(errorBgColorClass) === false) {
+                    inputElem.classList.add(errorBgColorClass)
+                    this.view.playIncorrectSound()
+                }
+            } else {
+                inputElem.classList.remove(errorBgColorClass)
+            }
+        }
     }
 
     private startCourse(config: CourseConfig): Course {
         const course: Course = new Course(config)
         course.initialize()
-        this.courseTimeKeeper.start()
-        document.getElementById('progress_bar')!.style.width = '0%'
+        this.currentCourse = course
 
-        const logTab: HTMLElement = document.getElementById('log_tab') as HTMLElement
-        logTab.classList.remove('disabled')
-        logTab.click()
-        document.getElementById('done_list_group')!.insertAdjacentHTML('afterbegin', `<li class="list-group-item"><i class="bi bi-play-circle"></i>&nbsp;${config.courseName}&nbsp;開始</li>`)
+        this.courseTimeKeeper.start()
+        this.view.updateProgressBar(0)
+        this.view.showLearningLogTab()
+        this.view.addStartCourseLog(config.courseName)
         return course
     }
 
@@ -47,59 +71,29 @@ export class Controller {
         }
         const problem = course.nextProblem()
 
-        document.getElementById('current_course_name')!.innerText = course.name
-        document.getElementById('calculation')!.innerHTML = `${problem.formula}<i class="bi bi-question-square"></i>`
+        this.view.setCurrentCourseName(course.name)
+        this.view.setFormulaOnBoard(problem.formula)
+
+        this.view.prepareAnswerInput(problem.formula, problem.answer)
         this.problemTimeKeeper.start()
-
-        const answerInput = document.getElementById('answer') as HTMLInputElement
-        //TODO data属性の中だけを変更し、removeとaddを繰り返さない
-        const keyupHandler = () => {
-            if (answerInput.value === problem.answer.toString()) {
-                this.problemTimeKeeper.end()
-                const durationSecondsString: string = this.problemTimeKeeper.getDurationSec().toFixed(1)
-                console.log(`correct: ${problem.answer}`)
-                this.correctSoundAudio.play()
-                document.getElementById('done_list_group')!.insertAdjacentHTML('afterbegin', `<li class="list-group-item"><i class="bi bi-check text-success"></i>&nbsp;${problem.formula}${problem.answer}&nbsp;(${durationSecondsString}秒)</li>`)
-                const progress: number = Math.floor((course.doneProblemCount / course.allProblemCount) * 100)
-                document.getElementById('progress_bar')!.style.width = `${progress}%`
-                this.startNextProblem(course)
-            } else {
-                const errorBgColorClass = 'bg-danger-subtle'
-                if (answerInput.value.length >= problem.answer.toString().length) {
-                    console.log(`incorrect: ${problem.answer}`)
-                    if (answerInput.classList.contains(errorBgColorClass) === false) {
-                        answerInput.classList.add(errorBgColorClass)
-                        this.incorrectSoundAudio.play()
-                    }
-                } else {
-                    answerInput.classList.remove(errorBgColorClass)
-                }
-            }
-        }
-
-        answerInput.removeEventListener('keyup', keyupHandler)
-        answerInput.addEventListener('keyup', keyupHandler)
-        answerInput.value = ''
-        answerInput.disabled = false
-        answerInput.focus()
     }
 
     private endCourse(course: Course) {
-        const answerInput = document.getElementById('answer') as HTMLInputElement
-        answerInput.value = ''
-        answerInput.disabled = true
+        this.view.answerInput.value = ''
+        this.view.answerInput.disabled = true
 
-        document.getElementById('progress_bar')!.style.width = '100%'
+        this.view.updateProgressBar(100)
         this.courseTimeKeeper.end()
-        const durationSeconds: number = this.courseTimeKeeper.getDurationSec()
+        const durationSec: number = this.courseTimeKeeper.getDurationSec()
 
         const uch: UserCourseHistory = this.getUserCourseHistory(course.id)
 
-        let bestRecordIcon: string = ''
+        // let bestRecordIcon: string = ''
         let bestSec: number = uch.bestSec
-        if (uch.bestSec === 0 || durationSeconds < uch.bestSec) {
-            bestSec = durationSeconds
-            bestRecordIcon = '<i class="bi bi-award"></i>'
+        let isBestRecord = false
+        if (uch.bestSec === 0 || durationSec < uch.bestSec) {
+            bestSec = durationSec
+            isBestRecord = true
         }
 
         const latestDoneCount: number = uch.doneCount + 1
@@ -109,18 +103,15 @@ export class Controller {
             bestSec: bestSec,
         })
 
-        const durationSecondsString: string = durationSeconds.toFixed(1)
-        document.getElementById('calculation')!.innerHTML = `<i class="bi bi-check-circle text-success"></i>&nbsp;全${course.doneProblemCount}問を${durationSecondsString}秒${bestRecordIcon}で完了`
-        document.getElementById('done_list_group')!.insertAdjacentHTML('afterbegin', `<li class="list-group-item"><i class="bi bi-check-circle text-success"></i>&nbsp;${course.name}&nbsp;全問完了(${durationSecondsString}秒${bestRecordIcon})</li>`)
+        this.view.setEndCourseMsgs(course, durationSec, isBestRecord)
 
         this.createCourseTable()
     }
 
     private createCourseTable() {
         // 既存の問題行を削除
-        document.querySelectorAll('tr.problem_row').forEach((row) => row.remove())
+        this.view.deleteAllRowsInCourseTable()
 
-        const courseTableBody: HTMLElement = document.getElementById('courseTableBody') as HTMLElement
         this.courseConfigList.forEach((config) => {
             const uch: UserCourseHistory = this.getUserCourseHistory(config.courseId)
             let courseDoneDate: string = '-'
@@ -145,14 +136,12 @@ export class Controller {
             }
             // 新しい行を作成
             const courseTableRow: HTMLTableRowElement = document.createElement('tr')
-            courseTableRow.id = config.courseId
-            courseTableRow.classList.add('problem_row')
             courseTableRow.innerHTML = `<td>${courseDoneIcon}&nbsp;${config.courseName}</td><td>${courseDoneDate}</td><td>${courseBestSec}</td>`
             courseTableRow.addEventListener('click', () => {
                 const course: Course = this.startCourse(config)
                 this.startNextProblem(course)
             })
-            courseTableBody.appendChild(courseTableRow)
+            this.view.addRowInCourseTable(courseTableRow)
         })
     }
 

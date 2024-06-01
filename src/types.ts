@@ -1,7 +1,7 @@
 export type CourseConfig = {
     courseId: string
     courseName: string
-    operator: 'addition' | 'subtraction'
+    operator: 'addition' | 'subtraction' | 'multiplication'
     item1: { min: number; max: number }
     item2: { min: number; max: number }
 }
