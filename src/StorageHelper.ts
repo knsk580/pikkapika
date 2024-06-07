@@ -1,3 +1,6 @@
+/**
+ * ローカルストレージを操作する
+ */
 export class StorageHelper {
     private prefix: string
 

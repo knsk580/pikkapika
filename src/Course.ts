@@ -39,12 +39,16 @@ export class Course {
         const item2Numbers = this.shuffleArray(this.createNumbersInRange(this.config.item2.min, this.config.item2.max))
         item1Numbers.forEach((num1) => {
             item2Numbers.forEach((num2) => {
-                if (this.config.operator === 'addition') {
-                    this.addProblem(`${num1} + ${num2} = `, num1 + num2)
-                } else if (this.config.operator === 'subtraction') {
-                    this.addProblem(`${num2} - ${num1} = `, num2 - num1)
-                } else if (this.config.operator === 'multiplication') {
-                    this.addProblem(`${num2} x ${num1} = `, num2 * num1)
+                switch (this.config.operator) {
+                    case 'addition':
+                        this.addProblem(`${num1} + ${num2} = `, num1 + num2)
+                        break
+                    case 'subtraction':
+                        this.addProblem(`${num2} - ${num1} = `, num2 - num1)
+                        break
+                    case 'multiplication':
+                        this.addProblem(`${num2} x ${num1} = `, num2 * num1)
+                        break
                 }
             })
         })

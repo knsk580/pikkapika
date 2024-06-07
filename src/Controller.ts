@@ -6,7 +6,9 @@ import { CourseConfigLoader } from './CourseConfigLoader'
 import { View } from './View'
 
 export class Controller {
+    // コース全体の所要時間計測用
     private courseTimeKeeper: TimeKeeper
+    // コース内の各問題の所要時間計測用
     private problemTimeKeeper: TimeKeeper
     private courseConfigList: CourseConfig[] = []
     private storageHelper: StorageHelper
@@ -21,49 +23,71 @@ export class Controller {
         this.view = new View()
     }
 
-    initialize() {
+    initialize(): void {
         document.addEventListener('DOMContentLoaded', () => {
+            // コース表を再作成する
             this.createCourseTable()
+            // 回答入力欄の入力イベントにハンドラーを登録する
             this.view.answerInput.oninput = this.answerInputCheckEventHandler.bind(this)
         })
     }
 
+    /**
+     * 回答入力欄の入力イベントハンドラー
+     * 入力欄のデータ属性に問題の数式と正解が予めセットされている前提
+     */
     private answerInputCheckEventHandler(): void {
         if (this.currentCourse === null) {
+            // 通常あり得ないが、進行中のコースが存在しない場合は何もしない
             return
         }
         const inputElem: HTMLInputElement = this.view.answerInput
+        // 入力が正解の場合
         if (inputElem.value === inputElem.dataset.answer) {
             this.problemTimeKeeper.end()
             this.view.playCorrectSound()
             this.view.addEndProblemLog(inputElem.dataset.formula!, inputElem.dataset.answer, this.problemTimeKeeper.getDurationSec())
             this.view.updateProgressBar(Math.floor((this.currentCourse.doneProblemCount / this.currentCourse.allProblemCount) * 100))
             this.startNextProblem(this.currentCourse)
-        } else {
-            const errorBgColorClass = 'bg-danger-subtle'
-            if (inputElem.value.length >= inputElem.dataset.answer!.length) {
-                if (inputElem.classList.contains(errorBgColorClass) === false) {
-                    inputElem.classList.add(errorBgColorClass)
-                    this.view.playIncorrectSound()
-                }
-            } else {
-                inputElem.classList.remove(errorBgColorClass)
+            return
+        }
+        // 回答が間違っていた場合の背景色指定クラス
+        const errorBgColorClass = 'bg-danger-subtle'
+        // 入力文字数が正解の文字数以上だが不正解ならば、ユーザーに知らせる
+        if (inputElem.value.length >= inputElem.dataset.answer!.length) {
+            if (inputElem.classList.contains(errorBgColorClass) === false) {
+                inputElem.classList.add(errorBgColorClass)
+                this.view.playIncorrectSound()
             }
+        } else {
+            // 回答修正中や入力途中であれば、エラー表示用背景色を解除する
+            inputElem.classList.remove(errorBgColorClass)
         }
     }
 
+    /**
+     * コースを開始する
+     * @param config コース設定
+     * @returns 開始したコース
+     */
     private startCourse(config: CourseConfig): Course {
         const course: Course = new Course(config)
         course.initialize()
         this.currentCourse = course
-
+        // コースの所要時間計測を開始
         this.courseTimeKeeper.start()
+        // プログレスバーを初期化
         this.view.updateProgressBar(0)
+        // 学習ログ表示タブをアクティブにして、コース開始のログを追加
         this.view.showLearningLogTab()
         this.view.addStartCourseLog(config.courseName)
         return course
     }
 
+    /**
+     * コース内の次の問題へ進む
+     * @param course 実施中のコース
+     */
     private startNextProblem(course: Course): void {
         if (course.isEndOfCourse()) {
             this.endCourse(course)
@@ -78,6 +102,10 @@ export class Controller {
         this.problemTimeKeeper.start()
     }
 
+    /**
+     * コース完了時の処理をする
+     * @param course 完了したコース
+     */
     private endCourse(course: Course) {
         this.view.answerInput.value = ''
         this.view.answerInput.disabled = true
@@ -88,7 +116,6 @@ export class Controller {
 
         const uch: UserCourseHistory = this.getUserCourseHistory(course.id)
 
-        // let bestRecordIcon: string = ''
         let bestSec: number = uch.bestSec
         let isBestRecord = false
         if (uch.bestSec === 0 || durationSec < uch.bestSec) {
@@ -161,7 +188,11 @@ export class Controller {
         }
     }
 
-    // 日付をログ用の文字列にフォーマットする関数
+    /**
+     * 日付をログ表示用にフォーマットする
+     * @param inputDate 日付文字列
+     * @returns 日付文字列
+     */
     private formatDateStringForLog(inputDate: string): string {
         const date = new Date(inputDate)
         // 月は0から始まるため、1を加える
@@ -170,6 +201,10 @@ export class Controller {
         return `${month}/${day}`
     }
 
+    /**
+     * 今日の日付文字列をyyyy-mm-dd形式で取得する
+     * @returns 日付文字列
+     */
     private getTodayDateString(): string {
         const today = new Date()
         const year = today.getFullYear()
