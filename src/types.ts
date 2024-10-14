@@ -15,4 +15,5 @@ export type UserCourseHistory = {
     doneDate: string
     doneCount: number
     bestSec: number
+    latestSec: number
 }

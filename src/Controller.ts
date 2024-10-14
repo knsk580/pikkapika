@@ -128,6 +128,7 @@ export class Controller {
             doneDate: this.getTodayDateString(),
             doneCount: latestDoneCount,
             bestSec: bestSec,
+            latestSec: durationSec,
         })
 
         this.view.setEndCourseMsgs(course, durationSec, isBestRecord)
@@ -145,9 +146,9 @@ export class Controller {
             if (uch.doneDate !== '') {
                 courseDoneDate = this.formatDateStringForLog(uch.doneDate)
             }
-            let courseBestSec: string = '-'
-            if (uch.bestSec > 0) {
-                courseBestSec = `${uch.bestSec}秒`
+            let courseLatestSec: string = '-'
+            if (uch.latestSec > 0) {
+                courseLatestSec = `${uch.latestSec}秒`
             }
             let courseDoneIcon: string = '<i class="bi bi-play"></i>'
             if (uch.doneCount > 9) {
@@ -163,7 +164,7 @@ export class Controller {
             }
             // 新しい行を作成
             const courseTableRow: HTMLTableRowElement = document.createElement('tr')
-            courseTableRow.innerHTML = `<td>${courseDoneIcon}&nbsp;${config.courseName}</td><td>${courseDoneDate}</td><td>${courseBestSec}</td>`
+            courseTableRow.innerHTML = `<td>${courseDoneIcon}&nbsp;${config.courseName}</td><td>${courseDoneDate}</td><td>${courseLatestSec}</td>`
             courseTableRow.addEventListener('click', () => {
                 const course: Course = this.startCourse(config)
                 this.startNextProblem(course)
@@ -185,6 +186,7 @@ export class Controller {
             doneDate: '',
             doneCount: 0,
             bestSec: 0,
+            latestSec: 0,
         }
     }
 
